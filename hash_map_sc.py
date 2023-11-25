@@ -181,7 +181,7 @@ class HashMap:
         """
 
         # find the bucket of the key
-        hash = hash_function_1(key)
+        hash = self._hash_function(key)
         index = hash % self._capacity
 
         # search the bucket for same key
@@ -196,8 +196,11 @@ class HashMap:
         TODO: Write this implementation
         """
 
+        if self._size == 0:
+            return False
+
         # find the bucket of the key
-        hash = hash_function_1(key)
+        hash = self._hash_function(key)
         index = hash % self._capacity
 
         # search the bucket for same key
@@ -214,7 +217,7 @@ class HashMap:
         """
 
         # find the bucket of the key
-        hash = hash_function_1(key)
+        hash = self._hash_function(key)
         index = hash % self._capacity
 
         #set pointer for last and current
@@ -227,9 +230,13 @@ class HashMap:
                 #if removing the head
                 if current == self._buckets.get_at_index(index)._head:
                     self._buckets.get_at_index(index)._head = current.next
+                    self._size -= 1
+                    return
                 #removing any other items
                 else:
                     last.next = current.next
+                    self._size -= 1
+                    return
                 return
 
             #update pointers
