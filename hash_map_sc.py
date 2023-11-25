@@ -97,7 +97,7 @@ class HashMap:
             self.resize_table(self._capacity*2)
 
         #find the bucket of the key
-        hash = hash_function_1(key)
+        hash = self._hash_function(key)
         index = hash % self._capacity
 
         #if bucket empty
