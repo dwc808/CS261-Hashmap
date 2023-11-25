@@ -90,7 +90,13 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        Puts the key-value pair into the hashmap. If the key already exists, the value will be
+        overridden with the new value. put() will call resize_table() as needed.
+
+        :param key:     the key to be placed in the hash map
+        :param value:   the corresponding value that the key refers to
+
+        :return:        None, this method will put the key-value pair into the hashmap
         """
 
         if self.table_load() >= 1.0:
@@ -158,26 +164,37 @@ class HashMap:
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns a float with the table's current load factor.
+
+        :return:    the load factor of the table as a float
         """
 
         return self._size / self._capacity
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        Returns an integer with the number of empty buckets in the hash table.
+
+        :return:    an int, the number of empty bucktes in the hash table
+
         """
+
         count = 0
 
+        #for each bucket that is empty, increment the count
         for i in range(self._capacity):
             if self._buckets.get_at_index(i)._head == None:
                 count += 1
 
         return count
 
-    def get(self, key: str):
+    def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        Takes a key as a parameter and returns the value associated with the key.
+
+        :param key:     the key (a string) for the key-value pair
+
+        :return:        the value associated with the key
         """
 
         # find the bucket of the key
@@ -193,7 +210,12 @@ class HashMap:
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        Takes a key as a parameter and returns True if the key is found in the hash table,
+        and False if it is not. It will return False if the table is empty.
+
+        :param key:     a string, the key to be searched for in the hash table
+
+        :return:        True if the key is found, False if not
         """
 
         if self._size == 0:
@@ -213,7 +235,12 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Searches the hash table for the key, and removes the key-value pair if it exists. If
+        it is not found, the method does nothing.
+
+        :param key:     a string, the key of the key-value pair to be removed
+
+        :return:        None, the key-value pair is removed if found
         """
 
         # find the bucket of the key
