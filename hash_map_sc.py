@@ -115,11 +115,6 @@ class HashMap:
         self._buckets.get_at_index(index).insert(key, value)
         self._size += 1
 
-
-
-
-
-
     def resize_table(self, new_capacity: int) -> None:
         """
         Resizes the table for the hashmap. If the new capacity is not prime it will be changed
@@ -133,6 +128,9 @@ class HashMap:
         #do nothing if new capacity is less than 1
         if new_capacity < 1:
             return None
+
+        #store old capacity
+        old_cap = self._capacity
 
         #if new capacity is prime, set it
         if self._is_prime(new_capacity):
@@ -151,10 +149,9 @@ class HashMap:
 
         #update hashmap buckets to be new da
         self._buckets = new_da
-        size = self._size
         self._size = 0
 
-        for i in range(size):
+        for i in range(old_cap):
             for object in old_da.get_at_index(i):
                 self.put(object.key, object.value)
 
@@ -182,7 +179,17 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        # find the bucket of the key
+        hash = hash_function_1(key)
+        index = hash % self._capacity
+
+        # search the bucket for same key
+        for item in self._buckets.get_at_index(index):
+            if item.key == key:
+                return item.value
+
+        return
 
     def contains_key(self, key: str) -> bool:
         """
@@ -205,7 +212,32 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        # find the bucket of the key
+        hash = hash_function_1(key)
+        index = hash % self._capacity
+
+        #set pointer for last and current
+        last = None
+        current = self._buckets.get_at_index(index)._head
+
+        # search the bucket for same key
+        for item in self._buckets.get_at_index(index):
+            if item.key == key:
+                #if removing the head
+                if current == self._buckets.get_at_index(index)._head:
+                    self._buckets.get_at_index(index)._head = current.next
+                #removing any other items
+                else:
+                    last.next = current.next
+                return
+
+            #update pointers
+            last = current
+            current = current.next
+
+        return
+
 
     def get_keys_and_values(self) -> DynamicArray:
         """
