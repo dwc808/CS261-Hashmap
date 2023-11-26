@@ -275,9 +275,21 @@ class HashMap:
 
     def get_keys_and_values(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        This method returns a new dynamic array with all of the key-value pairs in the hash table.
+        The key-value pairs are stored as tuples.
+
+        :return:        A dynamic array with tuples containing every key-value pair in the hash table
         """
-        pass
+
+        keys_and_values = DynamicArray()
+
+        #iterate through buckets, storing any key-value pairs found
+        for i in range(self._capacity):
+
+            for pair in self._buckets.get_at_index(i):
+                keys_and_values.append((pair.key, pair.value))
+
+        return keys_and_values
 
     def clear(self) -> None:
         """
