@@ -1,9 +1,12 @@
-# Name:
-# OSU Email:
+# Name: Darren Choate
+# OSU Email: choated@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: Assignment 6 - Separate Chaining HashMap
+# Due Date: 12/7/23
+# Description: This file contains an implementation of a separate chaining hashmap, using a dynamic
+# array as the underlying data storage. This implementation has a maximum load factor of 1. It also
+# contains an additional function for finding the mode of a dynamic array, which makes use of the
+# hashmap.
 
 
 from a6_include import (DynamicArray, LinkedList,
