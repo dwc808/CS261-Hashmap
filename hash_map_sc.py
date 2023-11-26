@@ -311,10 +311,44 @@ def find_mode(da: DynamicArray) -> tuple[DynamicArray, int]:
     """
     TODO: Write this implementation
     """
-    # if you'd like to use a hash map,
-    # use this instance of your Separate Chaining HashMap
-    map = HashMap()
 
+    map = HashMap()
+    highest_instance = 0
+    count = 0
+
+    #iterate over the dynamic array
+    for i in range(da.length()):
+        #if already in hashmap, increment value
+        if map.contains_key(da.get_at_index(i)):
+            value = map.get(da.get_at_index(i))
+            map.put(da.get_at_index(i), value+1)
+            count = map.get(da.get_at_index(i))
+
+            #if the count is higher than current mode, add item to new da
+            if count > highest_instance:
+                highest_instance = count
+                mode_da = DynamicArray()
+                mode_da.append(da.get_at_index(i))
+
+            #if count equal to current mode, append item to da
+            elif count == highest_instance:
+                mode_da.append(da.get_at_index(i))
+
+        #add new item to hashmap
+        else:
+            map.put(da.get_at_index(i), 1)
+            count = map.get(da.get_at_index(i))
+
+            #for first item added
+            if highest_instance == 0:
+                highest_instance = count
+                mode_da = DynamicArray()
+                mode_da.append(da.get_at_index(i))
+            #until mode greater than 1
+            elif highest_instance == 1:
+                mode_da.append(da.get_at_index(i))
+
+    return mode_da, highest_instance
 
 # ------------------- BASIC TESTING ---------------------------------------- #
 
