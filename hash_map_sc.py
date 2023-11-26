@@ -309,7 +309,13 @@ class HashMap:
 
 def find_mode(da: DynamicArray) -> tuple[DynamicArray, int]:
     """
-    TODO: Write this implementation
+    This function will find the mode of a dynamic array, and return a tuple with two items:
+    a new dynamic array containing the mode, and an integer with the count for the mode value(s).
+    It makes use of a hashmap to store the count of items encountered in the dynamic array.
+
+    :param da:      the dynamic array to find the mode of
+
+    :return:        a tuple containing a dynamic array of the mode, and an integer with their count
     """
 
     map = HashMap()
