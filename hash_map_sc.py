@@ -293,9 +293,18 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        This method will empty the hash map, but will not alter its current capacity. All
+        key-value pairs stored in the buckets will be removed and size will be reset to 0.
+
+        :return:    None - the hash map is emptied, retaining its capacity
         """
-        pass
+
+        #iterate through buckets, clearing any that are not empty
+        for i in range(self._capacity):
+            if self._buckets.get_at_index(i)._head != None:
+                self._buckets.set_at_index(i, LinkedList())
+
+        self._size = 0
 
 
 def find_mode(da: DynamicArray) -> tuple[DynamicArray, int]:
