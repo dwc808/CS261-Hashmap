@@ -87,27 +87,99 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        Adds an item to the hashmap. Utilizes a hash function to compute the index,
+        and attempts to place the object at that index. If the index is full, uses
+        quadratic probing to find an empty bucket. Put will call resize_table if
+        the load factor of the hashtable is .5 or greater.
+
+        :param key:     the key of the object to be added
+        :param value:   the value of the object to be added
+
+        :return:        None, the object is added to the hashmap
         """
-        pass
+
+        #double capacity if load factor is .5 or greater
+        if self.table_load() >= .5:
+            self.resize_table(self._capacity*2)
+
+        #find index of key
+        hash = self._hash_function(key)
+        index = hash % self._capacity
+
+        #if bucket empty, add key-value pair
+        if self._buckets.get_at_index(index) == None:
+            self._buckets.set_at_index(index, HashEntry(key, value))
+            self._size += 1
+            return
+
+        #otherwise, use quadratic probing to find spot
+        j = 1
+        while self._buckets.get_at_index(index) != None:
+            index = (index + j**2) % self._capacity
+            j += 1
+
+        #empty bucket found, add key-value pair
+        self._buckets.set_at_index(index, HashEntry(key, value))
+        self._size += 1
+        return
 
     def resize_table(self, new_capacity: int) -> None:
         """
         TODO: Write this implementation
         """
-        pass
+
+        #do nothing if new_capacity is less than current number of elements in the has map
+        if new_capacity < self._size:
+            return
+
+        #store old_capacity
+        old_cap = self._capacity
+
+        #if new_capacity is prime
+        if self._is_prime(new_capacity):
+            self._capacity = new_capacity
+
+        #if not, find next prime
+        else:
+            self._capacity = self._next_prime(new_capacity)
+
+        new_da = DynamicArray()
+        old_da = self._buckets
+
+        #initialize new_da and replace buckets with it
+        for i in range(self._capacity):
+            new_da.append(None)
+        self._buckets = new_da
+        self._size = 0
+
+        #iterate over old buckets, re-hashing each key-value pair into new buckets
+        for i in range(old_cap):
+            if old_da.get_at_index(i) != None:
+                self.put(old_da.get_at_index(i).key, old_da.get_at_index(i).value)
+
+
+
+
 
     def table_load(self) -> float:
         """
         TODO: Write this implementation
         """
-        pass
+
+        return self._size / self._capacity
 
     def empty_buckets(self) -> int:
         """
         TODO: Write this implementation
         """
-        pass
+
+        count = 0
+
+        for i in range(self._capacity):
+            if self._buckets.get_at_index(i) == None:
+                count += 1
+
+        return count
 
     def get(self, key: str) -> object:
         """
