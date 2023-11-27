@@ -205,7 +205,26 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        if self._size == 0:
+            return None
+
+        # find index of key
+        hash = self._hash_function(key)
+        index = hash % self._capacity
+
+        j = 1
+        initial_index = index
+
+        for i in range(self._capacity):
+            if self._buckets.get_at_index(index) == None:
+                return None
+            if self._buckets.get_at_index(index).key == key:
+                return self._buckets.get_at_index(index).value
+
+            index = (initial_index + j ** 2) % self._capacity
+            j += 1
+
 
     def contains_key(self, key: str) -> bool:
         """
@@ -264,7 +283,11 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        for i in range(self._capacity):
+            self._buckets.set_at_index(i, None)
+
+        self._size = 0
 
     def __iter__(self):
         """
