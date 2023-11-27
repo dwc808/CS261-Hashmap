@@ -162,6 +162,8 @@ class HashMap:
         for i in range(old_cap):
             if old_da.get_at_index(i) != None:
                 self.put(old_da.get_at_index(i).key, old_da.get_at_index(i).value)
+                if old_da.get_at_index(i).is_tombstone == True:
+                    self._size -= 1
 
 
 
