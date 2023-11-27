@@ -112,6 +112,12 @@ class HashMap:
             self._size += 1
             return
 
+        #if bucket is full but it's a tombstone
+        if self._buckets.get_at_index(index).is_tombstone == True:
+            self._buckets.set_at_index(index, HashEntry(key, value))
+            self._size += 1
+            return
+
         #if bucket is full, but key is same, update value
         if self._buckets.get_at_index(index).key == key:
             self._buckets.get_at_index(index).value = value
@@ -121,6 +127,12 @@ class HashMap:
         j = 1
         initial_index = index
         while self._buckets.get_at_index(index) != None:
+            #replace a tombstone if hit
+            if self._buckets.get_at_index(index).is_tombstone == True:
+                self._buckets.set_at_index(index, HashEntry(key, value))
+                self._size += 1
+                return
+            #use quadratic probing to check new index
             index = (initial_index + j**2) % self._capacity
             j += 1
 
@@ -161,9 +173,12 @@ class HashMap:
         #iterate over old buckets, re-hashing each key-value pair into new buckets
         for i in range(old_cap):
             if old_da.get_at_index(i) != None:
-                self.put(old_da.get_at_index(i).key, old_da.get_at_index(i).value)
-                if old_da.get_at_index(i).is_tombstone == True:
-                    self._size -= 1
+                #don't transfer tombstones
+                if old_da.get_at_index(i).is_tombstone != True:
+                    self.put(old_da.get_at_index(i).key, old_da.get_at_index(i).value)
+
+
+
 
 
 
@@ -199,7 +214,26 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        if self._size == 0:
+            return False
+
+        # find index of key
+        hash = self._hash_function(key)
+        index = hash % self._capacity
+
+        j = 1
+        initial_index = index
+
+        for i in range(self._capacity):
+            if self._buckets.get_at_index(index) == None:
+                return False
+            if self._buckets.get_at_index(index).key == key:
+                return True
+
+            index = (initial_index + j ** 2) % self._capacity
+            j += 1
+
 
     def remove(self, key: str) -> None:
         """
@@ -210,6 +244,17 @@ class HashMap:
         hash = self._hash_function(key)
         index = hash % self._capacity
 
+        j = 1
+        initial_index = index
+
+        while self._buckets.get_at_index(index) != None:
+            if self._buckets.get_at_index(index).key == key:
+                self._buckets.get_at_index(index).is_tombstone = True
+                return
+            index = (initial_index + j**2) % self._capacity
+            j += 1
+
+        return
 
     def get_keys_and_values(self) -> DynamicArray:
         """
