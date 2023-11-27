@@ -277,7 +277,15 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        keys_and_values = DynamicArray()
+
+        for i in range(self._capacity):
+
+            if self._buckets.get_at_index(i) != None and self._buckets.get_at_index(i).is_tombstone == False:
+                keys_and_values.append((self._buckets.get_at_index(i).key, self._buckets.get_at_index(i).value))
+
+        return keys_and_values
 
     def clear(self) -> None:
         """
