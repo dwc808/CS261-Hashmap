@@ -112,6 +112,11 @@ class HashMap:
             self._size += 1
             return
 
+        #if bucket is full, but key is same, update value
+        if self._buckets.get_at_index(index).key == key:
+            self._buckets.get_at_index(index).value = value
+            return
+
         #otherwise, use quadratic probing to find spot
         j = 1
         initial_index = index
