@@ -114,8 +114,9 @@ class HashMap:
 
         #otherwise, use quadratic probing to find spot
         j = 1
+        initial_index = index
         while self._buckets.get_at_index(index) != None:
-            index = (index + j**2) % self._capacity
+            index = (initial_index + j**2) % self._capacity
             j += 1
 
         #empty bucket found, add key-value pair
@@ -197,7 +198,11 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        # find index of key
+        hash = self._hash_function(key)
+        index = hash % self._capacity
+
 
     def get_keys_and_values(self) -> DynamicArray:
         """
