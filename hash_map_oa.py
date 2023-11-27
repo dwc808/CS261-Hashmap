@@ -132,6 +132,10 @@ class HashMap:
                 self._buckets.set_at_index(index, HashEntry(key, value))
                 self._size += 1
                 return
+            # if bucket is full, but key is same, update value
+            if self._buckets.get_at_index(index).key == key:
+                self._buckets.get_at_index(index).value = value
+                return
             #use quadratic probing to check new index
             index = (initial_index + j**2) % self._capacity
             j += 1
