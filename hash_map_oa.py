@@ -264,7 +264,7 @@ class HashMap:
         initial_index = index
 
         while self._buckets.get_at_index(index) != None:
-            if self._buckets.get_at_index(index).key == key:
+            if self._buckets.get_at_index(index).key == key and self._buckets.get_at_index(index).is_tombstone == False:
                 self._buckets.get_at_index(index).is_tombstone = True
                 self._size -= 1
                 return
