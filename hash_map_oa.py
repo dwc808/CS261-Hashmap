@@ -181,13 +181,6 @@ class HashMap:
                 if old_da.get_at_index(i).is_tombstone != True:
                     self.put(old_da.get_at_index(i).key, old_da.get_at_index(i).value)
 
-
-
-
-
-
-
-
     def table_load(self) -> float:
         """
         TODO: Write this implementation
@@ -254,6 +247,7 @@ class HashMap:
         while self._buckets.get_at_index(index) != None:
             if self._buckets.get_at_index(index).key == key:
                 self._buckets.get_at_index(index).is_tombstone = True
+                self._size -= 1
                 return
             index = (initial_index + j**2) % self._capacity
             j += 1
