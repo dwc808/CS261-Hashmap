@@ -301,13 +301,27 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+
+        self._index = 0
+
+        return self
 
     def __next__(self):
         """
         TODO: Write this implementation
         """
-        pass
+
+        try:
+            value = self._buckets[self._index]
+        except DynamicArrayException:
+            raise StopIteration
+
+        if value != None and value.is_tombstone == False:
+            self._index = self._index + 1
+            return value
+        else:
+            self._index = self._index + 1
+            return self.__next__()
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
