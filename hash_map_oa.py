@@ -193,13 +193,7 @@ class HashMap:
         TODO: Write this implementation
         """
 
-        count = 0
-
-        for i in range(self._capacity):
-            if self._buckets.get_at_index(i) == None:
-                count += 1
-
-        return count
+        return self._capacity - self._size
 
     def get(self, key: str) -> object:
         """
