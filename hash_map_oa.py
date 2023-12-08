@@ -1,9 +1,11 @@
-# Name:
-# OSU Email:
+# Name: Darren Choate
+# OSU Email: choated@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: 6 - HashMap OA
+# Due Date: 12/7/2023
+# Description: This is a hashmap implementation that uses open addressing to handle collisions. It
+# employs quadratic probing. It uses a Dynamic Array as the underlying data structure, and uses a
+# simply HashEntry class to store key-value pairs. It has a maximum load-size of .5.
 
 from a6_include import (DynamicArray, DynamicArrayException, HashEntry,
                         hash_function_1, hash_function_2)
@@ -147,7 +149,14 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        This method will resize the table for the hashmap. It will always be called by put
+        if the table load is greater than .5, but can be called directly. It should be passed
+        the desired new capacity as a parameter; the method will ensure that the new capacity is
+        prime. This method will call put to rehash all the existing items in the table.
+
+        :param new_capacity:    the desired capacity for the hashmap after resizing
+
+        :return:                None, the table is resized and elements are re-addressed.
         """
 
         #do nothing if new_capacity is less than current number of elements in the has map
@@ -183,21 +192,29 @@ class HashMap:
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current table load.
+
+        :return:        the current table load, as a float
         """
 
         return self._size / self._capacity
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        Returns the number of empty buckets currently in the HashMap.
+
+        :return:        an integer, the amount of empty buckets
         """
 
         return self._capacity - self._size
 
     def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        Return the value associated with the given key. If the key is not found, returns None.
+
+        :param key:     the key to search for
+
+        :return:        the value associated with the key provided
         """
 
         if self._size == 0:
@@ -210,6 +227,7 @@ class HashMap:
         j = 1
         initial_index = index
 
+        #search for the key, using quadratic probing if index is full
         for i in range(self._capacity):
             if self._buckets.get_at_index(index) == None:
                 return None
@@ -222,7 +240,11 @@ class HashMap:
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        Returns true if the key provided exists in the HashMap, otherwise returns False.
+
+        :param key:     the key to search for
+
+        :return:        True if key is found, False otherwise
         """
 
         if self._size == 0:
@@ -247,7 +269,12 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        This method removes an key-value pair from the Hashmap. When a pair is removed, it is
+        left as a tombstone. If the key to be removed is not found, remove will do nothing.
+
+        :param key:     the key to remove from the HashMap
+
+        :return:        None, either the key is removed or it is not found
         """
 
         # find index of key
@@ -269,7 +296,10 @@ class HashMap:
 
     def get_keys_and_values(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        This method returns an array with every key-value pair in the HashMap. The key-value
+        pairs are stored in the array as tuples.
+
+        :return:        new DynamicArray with all key-value pairs in the HashMap
         """
 
         keys_and_values = DynamicArray()
@@ -283,7 +313,9 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        This method empties the HashMap entirely, without altering its current capacity.
+
+        :return:        None, the HashMap is emptied
         """
 
         for i in range(self._capacity):
@@ -293,7 +325,7 @@ class HashMap:
 
     def __iter__(self):
         """
-        TODO: Write this implementation
+        Initialize the iterator for the HashMap.
         """
 
         self._index = 0
@@ -302,7 +334,7 @@ class HashMap:
 
     def __next__(self):
         """
-        TODO: Write this implementation
+        Iterate to the next full bucket in the HashMap.
         """
 
         try:
