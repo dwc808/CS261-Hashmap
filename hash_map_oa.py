@@ -5,7 +5,7 @@
 # Due Date: 12/7/2023
 # Description: This is a hashmap implementation that uses open addressing to handle collisions. It
 # employs quadratic probing. It uses a Dynamic Array as the underlying data structure, and uses a
-# simply HashEntry class to store key-value pairs. It has a maximum load-size of .5.
+# simple HashEntry class to store key-value pairs. It has a maximum load-size of .5.
 
 from a6_include import (DynamicArray, DynamicArrayException, HashEntry,
                         hash_function_1, hash_function_2)
